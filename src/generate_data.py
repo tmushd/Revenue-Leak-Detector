@@ -3,6 +3,9 @@ We generate sythetic datasets for:
 accounts.csv
 deals.csv
 product_usage.csv
+cancellations.csv
+sales_notes.csv
+support_tickets.csv
 """
 
 
@@ -510,16 +513,22 @@ def main() -> None:
     deals_df = generate_deals(accounts_df, N_DEALS)
     usage_df = generate_product_usage(accounts_df, WEEKS_OF_USAGE)
 
+    tickets_df = generate_support_tickets(accounts_df)
+    sales_notes_df = generate_sales_notes(deals_df)
+    cancellations_df = generate_cancellations(accounts_df, usage_df)
+
     accounts_df.to_csv(RAW_DIR / "accounts.csv", index=False)
     deals_df.to_csv(RAW_DIR / "deals.csv", index=False)
     usage_df.to_csv(RAW_DIR / "product_usage.csv", index=False)
 
+    tickets_df.to_csv(RAW_DIR / "support_tickets.csv", index=False)
+    sales_notes_df.to_csv(RAW_DIR / "sales_notes.csv", index=False)
+    cancellations_df.to_csv(RAW_DIR / "cancellations.csv", index=False)
+
     print("Done.")
-    print(f"Saved: {RAW_DIR / 'accounts.csv'} ({len(accounts_df):,} rows)")
-    print(f"Saved: {RAW_DIR / 'deals.csv'} ({len(deals_df):,} rows)")
-    print(f"Saved: {RAW_DIR / 'product_usage.csv'} ({len(usage_df):,} rows)")
 
 
 if __name__ == "__main__":
     main()
+
 
