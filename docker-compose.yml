@@ -1,0 +1,9 @@
+services:
+  revenue-leak-detector:
+    build: .
+    container_name: revenue-leak-detector
+    ports:
+      - "8501:8501"
+    environment:
+      - RUN_PIPELINE_ON_START=true
+      - PORT=8501

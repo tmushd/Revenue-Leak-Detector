@@ -112,11 +112,16 @@ flowchart LR
 ```text
 Revenue-Leak-Detector/
 ├── app.py
+├── Dockerfile
+├── docker-compose.yml
+├── docker/
+│   └── entrypoint.sh
 ├── project_spec.md
 ├── data_schema.md
 ├── requirements.txt
 ├── docs/
-│   └── PROJECT_COMPLETION.md
+│   ├── PROJECT_COMPLETION.md
+│   └── DOCKER_RUN_GUIDE.md
 ├── data/
 │   └── raw/
 ├── src/
@@ -133,6 +138,26 @@ Revenue-Leak-Detector/
 ```
 
 ## Quickstart (run end-to-end)
+
+### 0) Run with Docker (no local Python required)
+
+```bash
+docker build -t revenue-leak-detector .
+docker run --rm -p 8501:8501 revenue-leak-detector
+```
+
+Open: [http://localhost:8501](http://localhost:8501)
+
+The container automatically runs the pipeline, then launches Streamlit.
+
+Alternative:
+
+```bash
+docker compose up --build
+```
+
+Detailed guide:
+- `docs/DOCKER_RUN_GUIDE.md`
 
 ### 1) Install dependencies
 
