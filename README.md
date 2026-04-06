@@ -139,7 +139,8 @@ Revenue-Leak-Detector/
 
 ## Quickstart (run end-to-end)
 
-### 0) Run with Docker (no local Python required)
+### 0) Run with Docker (no local Python required) for streamlit deployment
+<img width="1917" height="933" alt="Screenshot 2026-04-06 at 1 47 25 AM" src="https://github.com/user-attachments/assets/033105f0-639a-437f-ab9c-04bcae7ae762" />
 
 #### Mac (Terminal)
 
@@ -161,13 +162,6 @@ docker run --rm -p 8501:8501 revenue-leak-detector
 
 Open: [http://localhost:8501](http://localhost:8501)
 
-If port `8501` is busy:
-
-```bash
-docker run --rm -p 8502:8501 revenue-leak-detector
-```
-
-Then open `http://localhost:8502`.
 
 ### 1) Install dependencies
 
