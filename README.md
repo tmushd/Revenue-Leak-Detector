@@ -4,6 +4,19 @@ An end-to-end SaaS analytics system that explains **where revenue is leaking**, 
 
 Includes Streamlit deploymenet capabilities (Guide mentioned below)
 
+## At A Glance
+
+| Area | What this project does |
+| --- | --- |
+| Business problem | Detects where SaaS revenue is leaking and what to fix first |
+| Data scope | Unifies 6 synthetic company datasets across product, sales, support, and churn |
+| Pipeline | Data generation -> taxonomy classification -> feature engineering -> churn modeling -> revenue analytics |
+| ML layer | Account-level churn-risk scoring with threshold optimization |
+| Analytics layer | Quantifies leakage from lost deals and churned subscriptions |
+| Explainability | Connects scores and loss estimates back to text evidence and root-cause categories |
+| Output | Interactive Streamlit dashboard plus Tableau conversion pack |
+| Latest snapshot | `$1.65M` modeled revenue leakage and `221` high/critical-risk accounts |
+
 This repo implements the full scope in `project_spec.md`: synthetic data generation, text classification, churn-risk modeling, revenue impact quantification, and an interactive Streamlit dashboard.
 
 It now also includes a Tableau conversion pack (`tableau/`) that mirrors the Streamlit dashboard sections with Tableau-ready exports, calculated field definitions, and a one-to-one worksheet/dashboard build guide.
