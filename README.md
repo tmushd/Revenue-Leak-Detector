@@ -4,6 +4,10 @@ An end-to-end SaaS analytics system that explains **where revenue is leaking**, 
 
 This repo implements the full scope in `project_spec.md`: synthetic data generation, text classification, churn-risk modeling, revenue impact quantification, and an interactive Streamlit dashboard.
 
+## 30-second pitch
+
+I built a full revenue intelligence system for a SaaS company simulation. It combines product usage, support tickets, sales notes, and cancellations to detect root causes of revenue leakage, score churn risk, estimate revenue at risk, and prioritize high-impact operational fixes in an interactive dashboard.
+
 ## What this repository does
 
 - Simulates a realistic SaaS company (`DesignFlow`) and unifies 6 datasets:
