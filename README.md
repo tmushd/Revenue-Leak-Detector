@@ -159,6 +159,58 @@ docker compose up --build
 Detailed guide:
 - `docs/DOCKER_RUN_GUIDE.md`
 
+#### Detailed Docker setup (copy/paste)
+
+1. Install Docker Desktop (or Docker Engine + Compose plugin).
+
+2. Verify Docker:
+
+```bash
+docker --version
+docker compose version
+```
+
+3. Clone and enter repo:
+
+```bash
+git clone https://github.com/tmushd/revenue-leak-detector.git
+cd revenue-leak-detector
+```
+
+4. Build image:
+
+```bash
+docker build -t revenue-leak-detector .
+```
+
+5. Run full project (pipeline + app):
+
+```bash
+docker run --rm -p 8501:8501 revenue-leak-detector
+```
+
+6. Open dashboard:
+- `http://localhost:8501`
+
+7. Stop:
+- Press `Ctrl + C` in terminal.
+
+Optional commands:
+
+```bash
+# Docker Compose
+docker compose up --build
+
+# Run only pipeline
+docker run --rm revenue-leak-detector pipeline
+
+# Skip pipeline on startup
+docker run --rm -p 8501:8501 -e RUN_PIPELINE_ON_START=false revenue-leak-detector
+
+# Use different host port if 8501 is busy
+docker run --rm -p 8502:8501 revenue-leak-detector
+```
+
 ### 1) Install dependencies
 
 ```bash
