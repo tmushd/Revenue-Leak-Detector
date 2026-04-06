@@ -1,17 +1,58 @@
 # Revenue Leak Detector
 
-An end-to-end SaaS analytics system that identifies **why revenue is lost** across churn and lost deals, then prioritizes the **highest-impact actions** to recover growth.
+An end-to-end SaaS analytics system that explains **where revenue is leaking**, **why it is leaking**, and **which actions should be prioritized first**.
 
-This project implements the full scope in `project_spec.md`: synthetic data generation, taxonomy-based text intelligence, churn modeling, revenue impact analysis, and an interactive Streamlit application.
+This repo implements the full scope in `project_spec.md`: synthetic data generation, text classification, churn-risk modeling, revenue impact quantification, and an interactive Streamlit dashboard.
 
-## Why this stands out
+## What this repository does
 
-- Solves a real business problem: revenue leakage in a subscription SaaS context.
-- Integrates structured + unstructured data (`usage`, `tickets`, `sales notes`, `cancellations`).
-- Produces both **diagnostics** (root causes) and **prescriptive outputs** (action recommendations).
-- Ships as a complete product: pipeline + model artifacts + dashboard.
+- Simulates a realistic SaaS company (`DesignFlow`) and unifies 6 datasets:
+  - accounts
+  - deals
+  - product usage
+  - support tickets
+  - sales notes
+  - cancellations
+- Classifies unstructured text into a business taxonomy:
+  - Commercial
+  - Product
+  - Operational
+  - Competitive
+  - Adoption / Value Realization
+- Builds account-level churn-risk scores and estimates revenue at risk.
+- Quantifies revenue leakage from:
+  - lost deals
+  - churned subscriptions
+- Produces recommendations tied to top leakage categories.
+- Delivers all results in a Streamlit app for exploration and decision-making.
 
-## Latest run snapshot (from local pipeline output)
+## What I built (my contribution)
+
+- Designed and implemented the full analytics pipeline in `src/revenue_leak/`.
+- Built taxonomy-driven text classification for sales/support/cancellation evidence (`text_taxonomy.py`).
+- Engineered account-level features from usage, support, and deal history (`features.py`).
+- Trained churn model and added threshold optimization for high-recall risk detection (`modeling.py`).
+- Implemented revenue-loss aggregation by category, trend, and segment (`analytics.py`).
+- Implemented recommendation engine that maps top root causes to actions (`recommendations.py`).
+- Built interactive Streamlit app with KPIs, charts, risk tables, and evidence explorer (`app.py`).
+- Wrote run pipeline entrypoint and project docs (`src/run_pipeline.py`, `docs/PROJECT_COMPLETION.md`).
+
+## Reasoning behind the design
+
+### 1) Business framing first, model second
+The objective is not “best ML metric”; it is **revenue recovery prioritization**.  
+So every stage is designed to answer: *which causes are losing the most money and what should the team do next?*
+
+### 2) Multi-source evidence over single-table modeling
+Revenue leakage is rarely visible in one table. I combined behavioral (`usage`), operational (`tickets`), commercial (`deals`), and sentiment/context (`notes`, `cancellations`) signals to improve root-cause coverage.
+
+### 3) Recall-optimized churn scoring
+For risk screening, missing true churners is expensive. I optimize threshold toward recall to surface more at-risk accounts, then rank by `estimated_monthly_revenue_at_risk` for practical prioritization.
+
+### 4) Taxonomy + evidence transparency
+Text classification is rule-driven and auditable. The dashboard exposes underlying text evidence so decisions are explainable to non-technical stakeholders.
+
+## Latest run snapshot (pipeline output)
 
 | Metric | Value |
 |---|---:|
@@ -42,15 +83,10 @@ flowchart LR
     E --> F
 ```
 
-## Core capabilities
+## Core capabilities delivered
 
 - **Data Generation**: realistic SaaS tables for accounts, deals, product usage, support tickets, sales notes, cancellations.
-- **Text Classification**: maps text evidence into a revenue-loss taxonomy:
-  - Commercial
-  - Product
-  - Operational
-  - Competitive
-  - Adoption / Value Realization
+- **Text Classification**: maps support/sales/churn text into a revenue-loss taxonomy.
 - **Churn Modeling**: Random Forest classifier with threshold tuning for higher recall.
 - **Revenue Impact Analysis**:
   - leakage by category/subcategory
@@ -90,7 +126,7 @@ Revenue-Leak-Detector/
 │       └── pipeline.py
 ```
 
-## Quickstart
+## Quickstart (run end-to-end)
 
 ### 1) Install dependencies
 
@@ -121,14 +157,27 @@ Outputs created:
 streamlit run app.py
 ```
 
-## Dashboard walkthrough
+## How to read the dashboard
 
-- **Revenue Loss Breakdown**: leakage by category and source.
-- **Revenue Loss Trend**: monthly churn and lost-deal trendline.
-- **At-Risk Accounts**: prioritized account table by expected revenue at risk.
-- **Most Affected Segments**: plan/region/industry leakage concentration.
-- **Model Quality**: ROC-AUC, PR-AUC, accuracy, recall, F1.
-- **Evidence Explorer**: inspect the exact text evidence driving category classifications.
+- **Revenue Loss Breakdown**: where loss is concentrated by category and source.
+- **Revenue Loss Trend**: whether leakage is improving or worsening over time.
+- **At-Risk Accounts**: who to intervene on first (ranked by expected revenue at risk).
+- **Most Affected Segments**: which plan/region/industry combinations are most exposed.
+- **Evidence Explorer**: raw cancellation reasons, support summaries, and sales notes for auditability.
+- **Recommended Actions**: prioritized operational playbook linked to observed root causes.
+
+## Model interpretation notes
+
+- Positive class is imbalanced (`~10.7%` churn prevalence), so raw accuracy is less meaningful than recall/PR-AUC for risk surfacing.
+- Current threshold is optimized for recall to reduce false negatives in at-risk account detection.
+- This model is intended as a decision-support ranking layer, not a final automated policy engine.
+
+## Why this project is portfolio-relevant
+
+- Demonstrates product thinking + analytics + ML in one coherent system.
+- Converts noisy operational data into executive-level action priorities.
+- Ships with reproducible pipeline, persisted artifacts, and interactive delivery.
+- Shows ownership from problem framing to implementation to communication.
 
 ## Tech stack
 
